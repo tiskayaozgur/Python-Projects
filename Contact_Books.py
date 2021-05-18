@@ -73,7 +73,7 @@ class GUI:
         #Creating new window while clicking add button
         new_window = Tk()
         new_window.geometry("300x300")
-        new_window.title("New Window")
+        new_window.title("Add Some Contact")
 
         #Creating name listbox&entries
         self.label_name = tk.Label(new_window, text='Name:', font='Calibri 12')
