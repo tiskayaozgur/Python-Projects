@@ -4,12 +4,6 @@ import sqlite3
 from tkinter import ttk
 from tkinter import *
 
-# import tkinter.filedialog
-# from tkinter.ttk import *
-
-
-
-
 import tkinter.font as tkFont
 
 class GUI:
@@ -18,7 +12,6 @@ class GUI:
 
         master.geometry('1000x800')
         master.title('Contact Books')
-        # master.resizable(width=False, height=False)
         self.master = master
 
         # Db connection and table creation
@@ -50,18 +43,14 @@ class GUI:
         self.button_delete = tk.Button(self.right_frame, text="DELETE", command=self.button_delete_handler)
         self.button_delete.pack(side='left', expand=True)
 
-
         #creating tree's and scroll bars
         self.tree = ttk.Treeview(columns=employees_header, show="headings")
         vsb = ttk.Scrollbar(orient="vertical", command=self.tree.yview)
-        # hsb = ttk.Scrollbar(orient="horizontal", command=self.tree.xview)
         self.tree.configure(yscrollcommand=vsb.set)
         self.tree.grid(column=0, row=0, sticky='nsew', in_=self.left_frame)
         vsb.grid(column=1, row=0, sticky='ns', in_=self.left_frame)
-        # hsb.grid(column=0, row=1, sticky='ew', in_=self.left_frame)
         self.left_frame.columnconfigure(0, weight=1)
         self.left_frame.rowconfigure(0, weight=1)
-
 
 
         #showing all datas at guı from database
@@ -174,8 +163,6 @@ class GUI:
                     l.append(value)
 
 
-
-
         #deleting datas that we choose from database
         sql = "DELETE FROM contact_books WHERE name=? AND job=? AND email=?"
         cur = self.conn.cursor()
@@ -194,7 +181,6 @@ class GUI:
 #trees haders
 employees_header = ['name', 'jobs', "email"]
 
-
 # connecting databases again, because taking result for inserting new datas from last datas
 conn = sqlite3.connect(r'C:\Users\Monster\Desktop\Ozgur_Python_Projeler\contact_books.sqlite')
 cur = conn.cursor()
@@ -207,14 +193,4 @@ if __name__ == '__main__':
     root = tk.Tk()
     gdb = GUI(root)
     root.mainloop()
-
-
-
-
-
-
-
-
-
-
 
