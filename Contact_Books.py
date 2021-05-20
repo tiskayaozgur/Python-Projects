@@ -362,14 +362,3 @@ if __name__ == '__main__':
     root = tk.Tk()
     gdb = GUI(root)
     root.mainloop()
-
-
-
-
-
-
-
-
-
-
-
