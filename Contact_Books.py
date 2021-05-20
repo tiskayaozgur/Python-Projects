@@ -25,7 +25,7 @@ class GUI:
         self.left_frame.grid(row=0, column=0, sticky='nswe')
 
         # Creating Right Frame
-        self.right_frame = tk.Frame(self.master, bg="blue", width=10)
+        self.right_frame = tk.Frame(self.master, bg="white", width=10)
         self.right_frame.grid(row=0, column=1, sticky='nswe')
 
         # when we try to expand horizontal, frame automaticly will expand
@@ -37,11 +37,11 @@ class GUI:
 
 
         # Creating top_right Frame
-        self.top_right_frame = tk.Frame(self.right_frame, bg="yellow")
+        self.top_right_frame = tk.Frame(self.right_frame, bg="blue")
         self.top_right_frame.grid(row=0, column=1, sticky='nswe')
 
         #creating bottom-right frame
-        self.bottom_right_frame = tk.Frame(self.right_frame, bg="blue")
+        self.bottom_right_frame = tk.Frame(self.right_frame, bg="red")
         self.bottom_right_frame.grid(row=1, column=1, sticky='nswe')
 
         #setting right frame's heavy when we extend the guı
@@ -50,14 +50,18 @@ class GUI:
         self.right_frame.columnconfigure(1, weight=1)
 
 
-        # Creating add button in top_right frame
+        # Creating add button in bottom_right_frame
         self.button_add = tk.Button(self.bottom_right_frame, text="  ADD  ", command=self.button_add_handler)
         self.button_add.pack(side='left', expand=True)
 
-        # Creating delete button in right frame
+        # Creating delete bottom_right_frame
         self.button_delete = tk.Button(self.bottom_right_frame, text="DELETE", command=self.button_delete_handler)
         self.button_delete.pack(side='left', expand=True)
-        # self.button_delete.bind('<Button-1>', self.button_delete_handler)
+
+
+        #creating clear all button bottom_right_frame
+        self.button_clear_all = tk.Button(self.bottom_right_frame, text="CLEAR ALL", command=self.button_clear_all_handler)
+        self.button_clear_all.pack(side='left', expand=True)
 
 
 
@@ -96,7 +100,8 @@ class GUI:
         self.top_right_frame.rowconfigure(3, weight=15)
 
 
-
+        cur.execute("SELECT  * FROM contact_books")
+        datas = cur.fetchall()
         #creating tree's and scroll bars
         self.tree = ttk.Treeview(columns=employees_header, show="headings")
         vsb = ttk.Scrollbar(orient="vertical", command=self.tree.yview)
@@ -189,6 +194,44 @@ class GUI:
             messagebox.showwarning(title="Warning", message="You should select at least one row to delete!")
 
 
+    #clear_all button in bottom_right_frame
+    def button_clear_all_handler(self):
+
+        #before delete all datas, we should ask to be sure.
+        result = messagebox.askquestion(title="Warning", message="Are you sure to delete ALL DATA?")
+        if result == 'yes':
+
+            # deleting all datas from GUI and databases
+            cur = self.conn.cursor()
+            cur.execute("DELETE FROM contact_books")
+            self.conn.commit()
+
+            cur.execute("SELECT  * FROM contact_books")
+            datas = cur.fetchall()
+
+            # creating tree's and scroll bars
+            self.tree = ttk.Treeview(columns=employees_header, show="headings")
+            vsb = ttk.Scrollbar(orient="vertical", command=self.tree.yview)
+            self.tree.configure(yscrollcommand=vsb.set)
+            self.tree.grid(column=0, row=0, sticky='nsew', in_=self.left_frame)
+            vsb.grid(column=1, row=0, sticky='ns', in_=self.left_frame)
+            self.left_frame.columnconfigure(0, weight=1)
+            self.left_frame.rowconfigure(0, weight=1)
+
+            # showing all datas at guı from database
+            for col in employees_header:
+                self.tree.heading(col, text=col.title())
+                self.tree.column(col, width=tkFont.Font().measure(col.title()))
+
+            # inserting all datas from databases for gui to show.
+            for item in datas:
+                self.tree.insert('', 'end', values=item)
+                # adjust column's width if necessary to fit each value
+                for ix, val in enumerate(item):
+                    col_w = tkFont.Font().measure(val)
+                    if self.tree.column(employees_header[ix], width=None) < col_w:
+                        self.tree.column(employees_header[ix], width=col_w)
+
 
     #search button in top-right-frame
     def button_search_handler(self):
@@ -202,6 +245,7 @@ class GUI:
         emails = []
 
         # taking datas from db to show guı
+        cur = self.conn.cursor()
         sql = "SELECT * FROM contact_books WHERE name=? or job=? or email=?"
         result = cur.execute(sql, (name, job, email))
         for i in result:
@@ -255,7 +299,7 @@ class GUI:
                     for i in range(len(emails)):
                         self.listbox_email = tk.Listbox(new_window_in_search_button, heigh=1, width=13, bg="white")
                         self.listbox_email.grid(row=i + 1, column=2, sticky='nswe')
-                        self.listbox_email.insert(tk.END, jobs[i])
+                        self.listbox_email.insert(tk.END, emails[i])
 
                 else:
                     messagebox.showwarning(title="Warning", message="No Records Found")
@@ -293,7 +337,6 @@ class GUI:
                     self.entry_name_in_add_button.delete(0, tk.END)
                     self.entry_job_in_add_button.delete(0, tk.END)
                     self.entry_email_in_add_button.delete(0, tk.END)
-
                     break
 
                 else:
@@ -313,19 +356,8 @@ class GUI:
         self.entry_job_in_add_button.delete(0, tk.END)
         self.entry_email_in_add_button.delete(0, tk.END)
 
-
-
 #trees haders
 employees_header = ['name', 'jobs', "email"]
-
-# connecting databases again, because taking result for inserting new datas from last datas
-conn = sqlite3.connect(r'C:\Users\Monster\Desktop\Ozgur_Python_Projeler\contact_books.sqlite')
-cur = conn.cursor()
-# selecting for taking datas for showing gui
-cur.execute("SELECT  * FROM contact_books")
-
-datas = cur.fetchall()
-
 if __name__ == '__main__':
     root = tk.Tk()
     gdb = GUI(root)
