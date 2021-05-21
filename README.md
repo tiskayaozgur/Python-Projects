@@ -10,4 +10,5 @@ About Contact Books:
   
   About Send_Mail.py:
     I built an app in python that allows to send email using GUI.
-    I used tkinter module for GUI, used smtplib module to send email to anyone
+    I used tkinter module for GUI, used smtplib module to send email to anyone.
+    If you want to delete data in all entries, you can use CLEAR ALL button.
