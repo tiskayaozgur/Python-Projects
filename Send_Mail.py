@@ -41,7 +41,7 @@ class GUI:
         self.content_entry = tk.Entry(self.master)
         self.content_entry.grid(row=4, column=1, sticky='nsew')
 
-        # Creating add button in bottom_right_frame
+        # Creating send button for sending email
         self.button_send = tk.Button(self.master, text="SEND", command=self.button_send_handler)
         self.button_send.grid(row=5, column=0, columnspan=2)
 
