@@ -12,3 +12,9 @@ About Contact Books:
     I built an app in python that allows to send email using GUI.
     I used tkinter module for GUI, used smtplib module to send email to anyone.
     If you want to delete data in all entries, you can use CLEAR ALL button.
+    
+   About TCP/IP:
+   I built an app that allows peer to peer messaging.
+   I used socket module for creating socket, sending message from client side and server side.
+   Both have their own frame.
+   
