@@ -8,14 +8,11 @@ import tkinter.scrolledtext
 import socket
 
 
-
-
-
 class GUI_Client:
     def __init__(self, master):
         # self.client_sock = client_sock
 
-        master.geometry('1000x800')
+        master.geometry('800x250')
         master.title('Client Side')
         self.master = master
 
@@ -36,8 +33,8 @@ class GUI_Client:
 
 
         #Creating chat area using scrolled text
-        self.text_chat = tk.scrolledtext.ScrolledText(self.left_frame, font='Calibri 14', width=60)
-        self.text_chat.grid(row=0, column=0, sticky='nswe')
+        self.text_chat_client = tk.scrolledtext.ScrolledText(self.left_frame, font='Calibri 14', width=60)
+        self.text_chat_client.grid(row=0, column=0, sticky='nswe')
 
 
         #creating chat entry
@@ -61,37 +58,38 @@ class GUI_Client:
         # self.button_connect.pack(side='left', expand=True)
 
         # connection requeriments
-        SERVER_PORT_NO = 50100
+        SERVER_PORT_NO = 50050
         SERVER_HOSTNAME = "127.0.0.1"
         self.client_sock = socket.socket(family=socket.AF_INET, type=socket.SOCK_STREAM, proto=socket.IPPROTO_TCP)
         self.client_sock.connect((SERVER_HOSTNAME, SERVER_PORT_NO))
 
 
 
+        # b = self.client_sock.recv(1024)
+        # text_server = b.decode("UTF-8")  # serverdan gelen cevap byte oldugu ıcın bunu strye cevırıp prınt ıle bastım, yanı yazının tersını
+        # self.text_chat_client.insert(tk.END, "<Server>" + text_server + '\n')
+
 
     def button_send_handler(self):
+
+
         text_client = self.entry.get()
-        self.entry.delete(0, tk.END)
 
         # showing all datas that server sent
-        self.text_chat.insert(tk.END, "<Client>" + text_client + '\n')
+        self.text_chat_client.insert(tk.END, "<Client>" + text_client + '\n')
 
-        b = text_client.encode("UTF-8")  # Gırılen str'yı byte nesnesıne cevırdım kı bunu send ıle server tarafına gonderebıleyım.
+        # coverting bytes, for send to the server side
+        b = text_client.encode("UTF-8")
         self.client_sock.send(b)
 
-
-        b = self.client_sock.recv(1024)
-        text_server = b.decode("UTF-8")  # serverdan gelen cevap byte oldugu ıcın bunu strye cevırıp prınt ıle bastım, yanı yazının tersını
-        # print(text_server)
-        self.text_chat.insert(tk.END, "<Server>" + text_server + '\n')
-        # self.entry.delete(0, tk.END)
+        # Deleting all in entry
+        self.entry.delete(0, tk.END)
 
 
 
     #Deleting all datas in text_chat
     def button_delete_handler(self):
-        self.text_chat.delete('1.0', 'end')
-
+        self.text_chat_client.delete('1.0', 'end')
 
 
 root = tk.Tk()
