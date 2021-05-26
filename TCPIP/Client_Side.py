@@ -53,17 +53,17 @@ class GUI_Client:
         self.button_send = tk.Button(self.right_frame, text="DELETE", command=self.button_delete_handler)
         self.button_send.pack(side='left', expand=True)
 
-        # # Creating connect button in right frame
-        # self.button_connect = tk.Button(self.right_frame, text="CONNECT", command=self.button_connect_handler)
-        # self.button_connect.pack(side='left', expand=True)
+        # Creating connect button in right frame
+        self.button_connect = tk.Button(self.right_frame, text="CONNECT", command=self.button_connect_handler)
+        self.button_connect.pack(side='left', expand=True)
 
+    #connecting and taking datas from server side
+    def button_connect_handler(self):
         # connection requeriments
         SERVER_PORT_NO = 50050
         SERVER_HOSTNAME = "127.0.0.1"
         self.client_sock = socket.socket(family=socket.AF_INET, type=socket.SOCK_STREAM, proto=socket.IPPROTO_TCP)
         self.client_sock.connect((SERVER_HOSTNAME, SERVER_PORT_NO))
-
-
 
         # b = self.client_sock.recv(1024)
         # text_server = b.decode("UTF-8")  # serverdan gelen cevap byte oldugu ıcın bunu strye cevırıp prınt ıle bastım, yanı yazının tersını
@@ -71,7 +71,6 @@ class GUI_Client:
 
 
     def button_send_handler(self):
-
 
         text_client = self.entry.get()
 
