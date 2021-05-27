@@ -17,4 +17,4 @@ About Contact Books:
    I built an app that allows peer to peer messaging.
    I used socket module for creating socket, sending message from client side and server side.
    Both have their own frame.
-   
+   I used  threading module so that the client and server can send messages to each other at the same time and the flow is not blocked.
