@@ -1,17 +1,19 @@
 #server Program
 import tkinter as tk
-import tkinter.messagebox
-import sqlite3
-from tkinter import ttk
 from tkinter import *
-import tkinter.font as tkFont
 import tkinter.scrolledtext
 import socket
-import time
+import threading
+
+# import tkinter.messagebox
+# from tkinter import ttk
+# import tkinter.font as tkFont
+
 
 class GUI_Server:
     def __init__(self, master):
 
+        #Creating main frame
         master.geometry('800x250')
         master.title('Server Side')
         self.master = master
@@ -53,37 +55,37 @@ class GUI_Server:
         self.button_send = tk.Button(self.right_frame, text="DELETE", command=self.button_delete_handler)
         self.button_send.pack(side='left', expand=True)
 
-        #Creating connect button in right frame
-        self.button_connect = tk.Button(self.right_frame, text="CONNECT", command=self.button_connect_handler)
-        self.button_connect.pack(side='left', expand=True)
 
-    #for connecting, you should use conect button
-    def button_connect_handler(self):
-        try:
-            # connecting requeriments
-            SERVER_PORT_NO = 50050
-            self.server_sock = socket.socket(family=socket.AF_INET, type=socket.SOCK_STREAM, proto=socket.IPPROTO_TCP)
-            self.server_sock.bind(("", SERVER_PORT_NO))
-            self.server_sock.listen(32)
+    #Creating run method() for creating thread to take datas from client side
+    #Burada connection kurup bir thread yarattım yaratttıgım thread bır yandan baska bır process gıbı calısacak ve clıenttan gelen mesajları alacak.
+    def run(self):
 
-            print("Waiting for connection...")
-            self.client_sock, self.client_addr = self.server_sock.accept()
-            print(f"Server'a baglanan client'in ip-port bilgisi={self.client_addr}")
+        # connecting requeriments
+        SERVER_PORT_NO = 50050
+        self.server_sock = socket.socket(family=socket.AF_INET, type=socket.SOCK_STREAM, proto=socket.IPPROTO_TCP)
+        self.server_sock.bind(("", SERVER_PORT_NO))
+        self.server_sock.listen(32)
 
-            while True:
-                # showing all datas that client sent
-                binary_client = self.client_sock.recv(1024)  # Clienttan gelen byte nesneyı recv ıle aldım.
-                text_client = binary_client.decode("UTF-8")  # byte nesnesını strye cevırdım, cunku bu yazıyı ters cevırıp karsı tarafa gonderecegım
-                if text_client != "":
-                    print(text_client)
-                    self.text_chat.insert(tk.END, "<Client>" + text_client + '\n')  # clienttan gelen mesajı guımıze yerlestırdık
+        print("Waiting for connection...")
+        self.client_sock, self.client_addr = self.server_sock.accept()
+        print(f"Server'a baglanan client'in ip-port bilgisi={self.client_addr}")
+
+
+        #Creating thread for taking datas from client side.
+        self.thread = threading.Thread(target=self.thread_proc)
+        self.thread.start()
+
+    #This will be run like  another process
+    def thread_proc(self):
+        while True:
+            # takiing all datas that client sent, and inserting that datas to the text area
+            binary_client = self.client_sock.recv(1024)
+            text_client = binary_client.decode("UTF-8")
+            if text_client:
+                # print(text_client)
+                self.text_chat.insert(tk.END,"<Client>" + text_client + '\n')
+            else:
                 break
-
-
-
-        except Exception as e:
-            print(e)
-
 
     def button_send_handler(self):
         # taking datas from server entries
@@ -92,21 +94,19 @@ class GUI_Server:
         # showing all datas that server sent
         self.text_chat.insert(tk.END, "<Server>" + text_server + '\n')
 
-        b = text_server.encode("UTF-8")  # Gırılen str'yı byte nesnesıne cevırdım kı bunu send ıle server tarafına gonderebıleyım.
+        #Sending datas that we want to client side
+        b = text_server.encode("UTF-8")
         self.client_sock.send(b)
         self.entry.delete(0, tk.END)
-
-
-
 
 
     # Deleting all datas in text_chat
     def button_delete_handler(self):
         self.text_chat.delete('1.0', 'end')
 
-
 root = tk.Tk()
 gdb = GUI_Server(root)
+gdb.run() #Calling run method to create thread
 root.mainloop()
 
 
