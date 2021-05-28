@@ -39,9 +39,11 @@ class GUI_Server:
         self.text_chat.grid(row=0, column=0, sticky='nswe')
 
 
-        #creating chat entry
+        #creating chat entry, and binding this entry to send data when we clicked enter
         self.entry = tk.Entry(self.left_frame)
         self.entry.grid(row=1, column=0, sticky='nsew')
+        self.entry.bind("<Return>", self.enter_handler)
+
 
         # setting chat area for if we expend the GUI
         self.left_frame.columnconfigure(0, weight=1)
@@ -51,9 +53,11 @@ class GUI_Server:
         self.button_send = tk.Button(self.right_frame, text="SEND", command=self.button_send_handler)
         self.button_send.pack(side='left', expand=True)
 
+
         # creating delete button in right frame
-        self.button_send = tk.Button(self.right_frame, text="DELETE", command=self.button_delete_handler)
-        self.button_send.pack(side='left', expand=True)
+        self.button_delete = tk.Button(self.right_frame, text="DELETE", command=self.button_delete_handler)
+        self.button_delete.pack(side='left', expand=True)
+
 
 
     #Creating run method() for creating thread to take datas from client side
@@ -103,6 +107,19 @@ class GUI_Server:
     # Deleting all datas in text_chat
     def button_delete_handler(self):
         self.text_chat.delete('1.0', 'end')
+
+
+    def enter_handler(self, x):
+        # taking datas from server entries
+        text_server = self.entry.get()
+
+        # showing all datas that server sent
+        self.text_chat.insert(tk.END, "<Server>" + text_server + '\n')
+
+        # Sending datas that we want to client side
+        b = text_server.encode("UTF-8")
+        self.client_sock.send(b)
+        self.entry.delete(0, tk.END)
 
 root = tk.Tk()
 gdb = GUI_Server(root)
