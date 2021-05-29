@@ -56,6 +56,10 @@ class GUI_Client:
         self.button_delete= tk.Button(self.right_frame, text="DELETE", command=self.button_delete_handler)
         self.button_delete.pack(side='left', expand=True)
 
+        # creating save chat button in right frame
+        self.button_save_chat = tk.Button(self.right_frame, text="SAVE CHAT", command=self.button_save_chat_handler)
+        self.button_save_chat.pack(side='left', expand=True)
+
     #Creating run method() for creating thread to take datas from server side
     def run(self):
 
@@ -119,7 +123,11 @@ class GUI_Client:
         # Deleting all in entry
         self.entry.delete(0, tk.END)
 
-
+    #saving all datas to the Desktop
+    def button_save_chat_handler(self):
+        with open("C:\\Users\Monster\Desktop\client_side_chat.txt", "a+", encoding="UTF-8") as file:
+            file.write(self.text_chat_client.get('1.0', END+'-1c'))
+        #print(self.text_chat_client.get('1.0', END+'-1c'))
 
 root = tk.Tk()
 gdb = GUI_Client(root)
