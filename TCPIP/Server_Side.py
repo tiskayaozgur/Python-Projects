@@ -1,9 +1,11 @@
 #server Program
+import tkinter.messagebox
 import tkinter as tk
 from tkinter import *
 import tkinter.scrolledtext
 import socket
 import threading
+
 
 # import tkinter.messagebox
 # from tkinter import ttk
@@ -127,9 +129,13 @@ class GUI_Server:
 
     # saving all datas to the Desktop
     def button_save_chat_handler(self):
-        with open("C:\\Users\Monster\Desktop\server_side_chat.txt", "a+", encoding="UTF-8") as file:
-            file.write(self.text_chat.get('1.0', END+'-1c'))
-        #print(self.text_chat.get('1.0', END+'-1c'))
+
+        if self.text_chat.get('1.0', END+'-1c') != "":
+            with open("C:\\Users\Monster\Desktop\server_side_chat.txt", "a+", encoding="UTF-8") as file:
+                file.write(self.text_chat.get('1.0', END+'-1c'))
+            #print(self.text_chat.get('1.0', END+'-1c'))
+        else:
+            messagebox.showwarning(title="Warning", message="If you want to save conversation, you should write something!")
 
 root = tk.Tk()
 gdb = GUI_Server(root)
