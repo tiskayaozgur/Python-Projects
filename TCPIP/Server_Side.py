@@ -7,11 +7,6 @@ import socket
 import threading
 
 
-# import tkinter.messagebox
-# from tkinter import ttk
-# import tkinter.font as tkFont
-
-
 class GUI_Server:
     def __init__(self, master):
 
@@ -21,11 +16,11 @@ class GUI_Server:
         self.master = master
 
         # Creating left frame
-        self.left_frame = tk.Frame(self.master, bg="yellow", width=10)
+        self.left_frame = tk.Frame(self.master, bg="gray", width=10)
         self.left_frame.grid(row=0, column=0, sticky='nswe')
 
         # Creating Right Frame
-        self.right_frame = tk.Frame(self.master, bg="blue", width=10)
+        self.right_frame = tk.Frame(self.master, bg="gray", width=10)
         self.right_frame.grid(row=0, column=1, sticky='nswe')
 
         # when we try to expand horizontal, frame automaticly will expand
