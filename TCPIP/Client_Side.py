@@ -6,12 +6,6 @@ import socket
 import threading
 from tkinter import *
 
-
-# import tkinter.messagebox
-# from tkinter import ttk
-# import tkinter.font as tkFont
-
-
 class GUI_Client:
     def __init__(self, master):
         # self.client_sock = client_sock
@@ -21,11 +15,11 @@ class GUI_Client:
         self.master = master
 
         # Creating left frame
-        self.left_frame = tk.Frame(self.master, bg="yellow", width=10)
+        self.left_frame = tk.Frame(self.master, bg="gray", width=10)
         self.left_frame.grid(row=0, column=0, sticky='nswe')
 
         # Creating Right Frame
-        self.right_frame = tk.Frame(self.master, bg="blue", width=10)
+        self.right_frame = tk.Frame(self.master, bg="gray", width=10)
         self.right_frame.grid(row=0, column=1, sticky='nswe')
 
         # when we try to expand horizontal, frame automaticly will expand
@@ -90,7 +84,6 @@ class GUI_Client:
             else:
                 break
 
-
     def button_send_handler(self):
         # taking datas from client entries
         text_client = self.entry.get()
@@ -105,11 +98,9 @@ class GUI_Client:
         # Deleting all in entry
         self.entry.delete(0, tk.END)
 
-
     #Deleting all datas in text_chat
     def button_delete_handler(self):
         self.text_chat_client.delete('1.0', 'end')
-
 
     def enter_handler(self, x):
         # taking datas from client entries
