@@ -2,7 +2,7 @@ import tkinter.messagebox
 import tkinter as tk
 from tkinter import *
 import tkinter.scrolledtext
-class GUI_Server:
+class Typing_Speed_Test:
     def __init__(self, master):
 
         #Creating main frame
@@ -55,5 +55,5 @@ class GUI_Server:
             pass
 
 root = tk.Tk()
-gdb = GUI_Server(root)
+gdb = Typing_Speed_Test(root)
 root.mainloop()
