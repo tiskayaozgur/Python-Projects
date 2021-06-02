@@ -8,7 +8,7 @@ About Contact Books:
   I used tkinter module for GUI.
   
   
-  About Send_Mail.py:
+  About Send_Mail:
     I built an app in python that allows to send email using GUI.
     I used tkinter module for GUI, used smtplib module to send email to anyone.
     If you want to delete data in all entries, you can use CLEAR ALL button.
@@ -18,3 +18,7 @@ About Contact Books:
    I used socket module for creating socket, sending message from client side and server side.
    Both have their own frame.
    I used  threading module so that the client and server can send messages to each other at the same time and the flow is not blocked.
+
+  About Typing_Speed_Test:
+    I built an app where you can make a typing contest.
+    
