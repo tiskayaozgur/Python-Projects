@@ -2,6 +2,8 @@ import tkinter.messagebox
 import tkinter as tk
 from tkinter import *
 import tkinter.scrolledtext
+import datetime as dt
+from spellchecker import SpellChecker
 
 class Typing_Speed_Test:
     def __init__(self, master):
@@ -66,14 +68,12 @@ class Typing_Speed_Test:
         self.right_frame.columnconfigure(0, weight=1)
 
         #Creating start button for race
-        self.button_start = tk.Button(self.right_frame, text="START")
+        self.button_start = tk.Button(self.right_frame, text="START", command=self.button_start_handler)
         self.button_start.pack(side='left', expand=True)
 
         #Creating show result button for showing candidate results
-        self.button_show_result = tk.Button(self.right_frame, text="SHOW RESULT")
+        self.button_show_result = tk.Button(self.right_frame, text="SHOW RESULT", command=self.button_show_result_handler)
         self.button_show_result.pack(side='left', expand=True)
-
-
 
         # Creating board area using scrolledtext for reading.
         self.text_board_read = tk.scrolledtext.ScrolledText(self.left_frame, font='Calibri 14')
@@ -88,13 +88,16 @@ class Typing_Speed_Test:
         if self.listbox.curselection()[0] == 0:
 
             with open(r'C:\\Users\Monster\Desktop\subjects\computer_science.txt', 'r', encoding='UTF-8') as file:
-                #Creating object for using subject_windows method's variable
+
+                #Creating object for using subject_windows method's variable and
                 object_computer_science = Typing_Speed_Test(root)
                 object_computer_science.subject_windows()
                 result = file.read()
                 object_computer_science.text_board_read.insert(tk.END, result)
 
 
+
+        # if you want to click second index in listbox
         elif self.listbox.curselection()[0] == 1:
             with open(r'C:\\Users\Monster\Desktop\subjects\politics.txt', 'r', encoding='UTF-8') as file:
                 # Creating object for using subject_windows method's variable
@@ -111,6 +114,7 @@ class Typing_Speed_Test:
                 result = file.read()
                 object_computer_science.text_board_read.insert(tk.END, result)
 
+        # if you want to click third index in listbox
         elif self.listbox.curselection()[0] == 3:
             with open(r'C:\\Users\Monster\Desktop\subjects\crypto_currency.txt', 'r', encoding='UTF-8') as file:
                 # Creating object for using subject_windows method's variable
@@ -119,6 +123,7 @@ class Typing_Speed_Test:
                 result = file.read()
                 object_computer_science.text_board_read.insert(tk.END, result)
 
+        # if you want to click fourth index in listbox
         elif self.listbox.curselection()[0] == 4:
             with open(r'C:\\Users\Monster\Desktop\subjects\evolution.txt', 'r', encoding='UTF-8') as file:
                 # Creating object for using subject_windows method's variable
@@ -128,6 +133,33 @@ class Typing_Speed_Test:
 
                 #Using variable from another method in same class
                 object_computer_science.text_board_read.insert(tk.END, result)
+
+    #Creating button_start_handler method
+    def button_start_handler(self):
+
+        self.start_time = dt.datetime.now()
+        print(f'Start Time= {self.start_time}')
+
+    #Creating button_show_result_handler method
+    def button_show_result_handler(self):
+        end_time = dt.datetime.now()
+        print(f'End time={end_time}')
+        result = end_time - self.start_time
+        print(f'Difference ={result}')
+
+        #Taking datas from reading area
+        list_read = self.text_board_read.get('1.0', END+'-1c').split()
+        print(list_read)
+
+        #Taking datas from writing area
+        list_write = self.text_board_write.get('1.0', END+'-1c').split()
+        print(list_write)
+
+        #Comparing and taking datas for showing
+        for i in range(len(list_write)):
+            if list_read[i] == list_write[i]:
+                print(list_write[i])
+
 
 root = tk.Tk()
 gdb = Typing_Speed_Test(root)
