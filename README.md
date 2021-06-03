@@ -20,5 +20,7 @@ About Contact Books:
    I used  threading module so that the client and server can send messages to each other at the same time and the flow is not blocked.
 
   About Typing_Speed_Test:
-    I built an app where you can make a typing contest.
+    I built an app where you can take a typing test.
+    You can take 5 different typing test.
+    I used datetime module for taking time.
     
