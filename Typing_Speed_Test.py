@@ -96,7 +96,6 @@ class Typing_Speed_Test:
                 object_computer_science.text_board_read.insert(tk.END, result)
 
 
-
         # if you want to click second index in listbox
         elif self.listbox.curselection()[0] == 1:
             with open(r'C:\\Users\Monster\Desktop\subjects\politics.txt', 'r', encoding='UTF-8') as file:
@@ -155,11 +154,68 @@ class Typing_Speed_Test:
         list_write = self.text_board_write.get('1.0', END+'-1c').split()
         print(list_write)
 
+        correct_words = []
+        incorrect_words = []
         #Comparing and taking datas for showing
         for i in range(len(list_write)):
             if list_read[i] == list_write[i]:
-                print(list_write[i])
+                correct_words.append(list_write[i])
+            else:
+                incorrect_words.append(list_write[i])
 
+
+        # Creating new window for showing results
+        self.result_window = Tk()
+        self.result_window.geometry("745x745")
+        self.result_window.title("Result Window")
+        self.result_window.resizable(width=False, height=False)
+
+        #Creating correct_words_label
+        self.correct_words_label = tk.Label(self.result_window, text="Correct Words", bg='green', width=20)
+        self.correct_words_label.grid(row=0, column=0, sticky='nsew')
+
+        #Creating incorrect_words_label
+        self.incorrect_words_label = tk.Label(self.result_window, text="Incorrect Words", bg='green', width=20)
+        self.incorrect_words_label.grid(row=0, column=1, sticky='nsew')
+
+        # Creating time_label
+        self.time_label = tk.Label(self.result_window, text="Time", bg='green', width=20)
+        self.time_label.grid(row=0, column=2, sticky='nsew')
+
+        # Creating correct_words_count_label
+        self.correct_words_count_label = tk.Label(self.result_window, text="Count of Correct Words", bg='green', width=21)
+        self.correct_words_count_label.grid(row=0, column=3, sticky='nsew')
+
+        # Creating incorrect_words_count_label
+        self.incorrect_words_count_label = tk.Label(self.result_window, text="Count of Incorrect Words", bg='green',width=21)
+        self.incorrect_words_count_label.grid(row=0, column=4, sticky='nsew')
+
+        # showing correct_words datas on new gui
+        for i in range(len(correct_words)):
+            self.listbox_name = tk.Listbox(self.result_window, heigh=1, width=20, bg="white")
+            self.listbox_name.grid(row=i + 1, column=0, sticky='nswe')
+            self.listbox_name.insert(tk.END, correct_words[i])
+
+        # showing incorrect_words datas on new gui
+        for i in range(len(incorrect_words)):
+            self.listbox_name = tk.Listbox(self.result_window, heigh=1, width=20, bg="white")
+            self.listbox_name.grid(row=i + 1, column=1, sticky='nswe')
+            self.listbox_name.insert(tk.END, incorrect_words[i])
+
+        # showing time datas on new gui
+        self.listbox_name = tk.Listbox(self.result_window, heigh=1, width=20, bg="white")
+        self.listbox_name.grid(row=1, column=2, sticky='nswe')
+        self.listbox_name.insert(tk.END, result)
+
+        #Showing correct_words_count on gui
+        self.listbox_name = tk.Listbox(self.result_window, heigh=1, width=20, bg="white")
+        self.listbox_name.grid(row=1, column=3, sticky='nswe')
+        self.listbox_name.insert(tk.END, len(correct_words))
+
+        # Showing incorrect_words_count on gui
+        self.listbox_name = tk.Listbox(self.result_window, heigh=1, width=20, bg="white")
+        self.listbox_name.grid(row=1, column=4, sticky='nswe')
+        self.listbox_name.insert(tk.END, len(incorrect_words))
 
 root = tk.Tk()
 gdb = Typing_Speed_Test(root)
