@@ -3,7 +3,6 @@ import tkinter as tk
 from tkinter import *
 import tkinter.scrolledtext
 import datetime as dt
-from spellchecker import SpellChecker
 
 class Typing_Speed_Test:
     def __init__(self, master):
@@ -72,7 +71,7 @@ class Typing_Speed_Test:
         self.button_start.pack(side='left', expand=True)
 
         #Creating show result button for showing candidate results
-        self.button_show_result = tk.Button(self.right_frame, text="SHOW RESULT", command=self.button_show_result_handler)
+        self.button_show_result = tk.Button(self.right_frame, text="SHOW RESULT", command=self.button_show_result_handler, state=tk.DISABLED)
         self.button_show_result.pack(side='left', expand=True)
 
         # Creating board area using scrolledtext for reading.
@@ -135,34 +134,46 @@ class Typing_Speed_Test:
 
     #Creating button_start_handler method
     def button_start_handler(self):
+        #If you want to start the contest you should press the start button first.
+        if len(self.text_board_write.get('1.0', END+'-1c')) == 0:
 
-        self.start_time = dt.datetime.now()
-        print(f'Start Time= {self.start_time}')
+            #After clicking start button, start button will be disabled, show result button will be Enabled
+            self.button_start.config(state=tk.DISABLED)
+            self.button_show_result.config(state=tk.NORMAL)
+
+            #Taking start time when click start button
+            self.start_time = dt.datetime.now()
+            print(f'Start Time= {self.start_time}')
+
+        else:
+            messagebox.showwarning(title="Warning", message="You should write after click start button")
 
     #Creating button_show_result_handler method
     def button_show_result_handler(self):
+        #After clicking show result button, start button will disabled,
+        self.button_show_result.config(state=tk.NORMAL)
+
         end_time = dt.datetime.now()
         print(f'End time={end_time}')
         result = end_time - self.start_time
         print(f'Difference ={result}')
 
-        #Taking datas from reading area
-        list_read = self.text_board_read.get('1.0', END+'-1c').split()
+        # Taking datas from reading area
+        list_read = self.text_board_read.get('1.0', END + '-1c').split()
         print(list_read)
 
-        #Taking datas from writing area
-        list_write = self.text_board_write.get('1.0', END+'-1c').split()
+        # Taking datas from writing area
+        list_write = self.text_board_write.get('1.0', END + '-1c').split()
         print(list_write)
 
         correct_words = []
         incorrect_words = []
-        #Comparing and taking datas for showing
+        # Comparing and taking datas for showing
         for i in range(len(list_write)):
             if list_read[i] == list_write[i]:
                 correct_words.append(list_write[i])
             else:
                 incorrect_words.append(list_write[i])
-
 
         # Creating new window for showing results
         self.result_window = Tk()
@@ -170,11 +181,11 @@ class Typing_Speed_Test:
         self.result_window.title("Result Window")
         self.result_window.resizable(width=False, height=False)
 
-        #Creating correct_words_label
+        # Creating correct_words_label
         self.correct_words_label = tk.Label(self.result_window, text="Correct Words", bg='green', width=20)
         self.correct_words_label.grid(row=0, column=0, sticky='nsew')
 
-        #Creating incorrect_words_label
+        # Creating incorrect_words_label
         self.incorrect_words_label = tk.Label(self.result_window, text="Incorrect Words", bg='green', width=20)
         self.incorrect_words_label.grid(row=0, column=1, sticky='nsew')
 
@@ -183,11 +194,13 @@ class Typing_Speed_Test:
         self.time_label.grid(row=0, column=2, sticky='nsew')
 
         # Creating correct_words_count_label
-        self.correct_words_count_label = tk.Label(self.result_window, text="Count of Correct Words", bg='green', width=21)
+        self.correct_words_count_label = tk.Label(self.result_window, text="Count of Correct Words", bg='green',
+                                                  width=21)
         self.correct_words_count_label.grid(row=0, column=3, sticky='nsew')
 
         # Creating incorrect_words_count_label
-        self.incorrect_words_count_label = tk.Label(self.result_window, text="Count of Incorrect Words", bg='green',width=21)
+        self.incorrect_words_count_label = tk.Label(self.result_window, text="Count of Incorrect Words", bg='green',
+                                                    width=21)
         self.incorrect_words_count_label.grid(row=0, column=4, sticky='nsew')
 
         # showing correct_words datas on new gui
@@ -207,7 +220,7 @@ class Typing_Speed_Test:
         self.listbox_name.grid(row=1, column=2, sticky='nswe')
         self.listbox_name.insert(tk.END, result)
 
-        #Showing correct_words_count on gui
+        # Showing correct_words_count on gui
         self.listbox_name = tk.Listbox(self.result_window, heigh=1, width=20, bg="white")
         self.listbox_name.grid(row=1, column=3, sticky='nswe')
         self.listbox_name.insert(tk.END, len(correct_words))
@@ -216,6 +229,9 @@ class Typing_Speed_Test:
         self.listbox_name = tk.Listbox(self.result_window, heigh=1, width=20, bg="white")
         self.listbox_name.grid(row=1, column=4, sticky='nswe')
         self.listbox_name.insert(tk.END, len(incorrect_words))
+
+        #Disabled show result button after showing results.
+        self.button_show_result.config(state=tk.DISABLED)
 
 root = tk.Tk()
 gdb = Typing_Speed_Test(root)
