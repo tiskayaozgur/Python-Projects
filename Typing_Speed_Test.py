@@ -22,13 +22,14 @@ class Typing_Speed_Test:
         self.listbox = tk.Listbox(self.master)
         self.listbox.grid(row=1, column=0, sticky='nsew')
 
-
         #Inserting datas for selecting subject from listbox
         self.listbox.insert(tk.END, 'Computer Science')
         self.listbox.insert(tk.END, 'Politics')
         self.listbox.insert(tk.END, 'History')
         self.listbox.insert(tk.END, 'Crypto Currency')
         self.listbox.insert(tk.END, 'Evolution')
+        self.listbox.insert(tk.END, 'Programming Languages')
+
 
         #Binding listbox
         self.listbox.bind('<Double-Button-1>', self.double_click)
@@ -59,7 +60,6 @@ class Typing_Speed_Test:
         self.typing_window.rowconfigure(0, weight=1)
         self.typing_window.rowconfigure(1, weight=1)
 
-
         # setting chat area for if we expend the GUI
         self.left_frame.columnconfigure(0, weight=1)
         self.left_frame.rowconfigure(0, weight=1)
@@ -85,9 +85,7 @@ class Typing_Speed_Test:
     def double_click(self, x):
         #if you want to click first index in listbox
         if self.listbox.curselection()[0] == 0:
-
             with open(r'C:\\Users\Monster\Desktop\subjects\computer_science.txt', 'r', encoding='UTF-8') as file:
-
                 #Creating object for using subject_windows method's variable and
                 object_computer_science = Typing_Speed_Test(root)
                 object_computer_science.subject_windows()
@@ -128,8 +126,17 @@ class Typing_Speed_Test:
                 object_computer_science = Typing_Speed_Test(root)
                 object_computer_science.subject_windows()
                 result = file.read()
-
                 #Using variable from another method in same class
+                object_computer_science.text_board_read.insert(tk.END, result)
+
+
+        elif self.listbox.curselection()[0] == 5:
+            with open(r'C:\\Users\Monster\Desktop\subjects\programming_languages.txt', 'r', encoding='UTF-8') as file:
+                # Creating object for using subject_windows method's variable
+                object_computer_science = Typing_Speed_Test(root)
+                object_computer_science.subject_windows()
+                result = file.read()
+                # Using variable from another method in same class
                 object_computer_science.text_board_read.insert(tk.END, result)
 
     #Creating button_start_handler method
@@ -194,13 +201,11 @@ class Typing_Speed_Test:
         self.time_label.grid(row=0, column=2, sticky='nsew')
 
         # Creating correct_words_count_label
-        self.correct_words_count_label = tk.Label(self.result_window, text="Count of Correct Words", bg='green',
-                                                  width=21)
+        self.correct_words_count_label = tk.Label(self.result_window, text="Count of Correct Words", bg='green',width=21)
         self.correct_words_count_label.grid(row=0, column=3, sticky='nsew')
 
         # Creating incorrect_words_count_label
-        self.incorrect_words_count_label = tk.Label(self.result_window, text="Count of Incorrect Words", bg='green',
-                                                    width=21)
+        self.incorrect_words_count_label = tk.Label(self.result_window, text="Count of Incorrect Words", bg='green',width=21)
         self.incorrect_words_count_label.grid(row=0, column=4, sticky='nsew')
 
         # showing correct_words datas on new gui
