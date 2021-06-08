@@ -31,6 +31,7 @@ class Typing_Speed_Test:
         self.listbox.insert(tk.END, 'Programming Languages')
         self.listbox.insert(tk.END, 'Horoscopes')
         self.listbox.insert(tk.END, 'Football')
+        self.listbox.insert(tk.END, 'World')
 
 
         #Binding listbox
@@ -152,6 +153,17 @@ class Typing_Speed_Test:
 
         elif self.listbox.curselection()[0] == 7:
             with open(r'C:\\Users\Monster\Desktop\subjects\football.txt', 'r', encoding='UTF-8') as file:
+                # Creating object for using subject_windows method's variable
+                object_computer_science = Typing_Speed_Test(root)
+                object_computer_science.subject_windows()
+                result = file.read()
+                # Using variable from another method in same class
+                object_computer_science.text_board_read.insert(tk.END, result)
+
+
+
+        elif self.listbox.curselection()[0] == 8:
+            with open(r'C:\\Users\Monster\Desktop\subjects\world.txt', 'r', encoding='UTF-8') as file:
                 # Creating object for using subject_windows method's variable
                 object_computer_science = Typing_Speed_Test(root)
                 object_computer_science.subject_windows()
