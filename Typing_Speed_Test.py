@@ -196,6 +196,8 @@ class Typing_Speed_Test:
             print(f'Start Time= {self.start_time}')
 
         else:
+            #Deleting datas from scrolledtext
+            self.text_board_write.delete('1.0', tk.END)
             messagebox.showwarning(title="Warning", message="You should write after click start button")
 
     #Creating button_show_result_handler method
