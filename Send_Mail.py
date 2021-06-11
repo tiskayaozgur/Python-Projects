@@ -65,39 +65,45 @@ class GUI:
 
 
     def button_send_handler(self):
+        try:
+            #Taking datas from entries
+            user_name = self.username_entry.get().strip()
+            password = self.password_entry.get().strip()
+            receipants = self.to_entry.get().strip()
+            # sender = self.from_entry.get()
+            subject = self.subject_entry.get().strip()
+            msg = self.content_entry.get().strip()
 
-        #Taking datas from entries
-        user_name = self.username_entry.get().strip()
-        password = self.password_entry.get().strip()
-        receipants = self.to_entry.get().strip()
-        # sender = self.from_entry.get()
-        subject = self.subject_entry.get().strip()
-        msg = self.content_entry.get().strip()
+            if user_name != "" and password != "" and receipants != "" and subject != "" and msg != "":
+                #creating MIME areas
+                mt = MIMEText(msg)
+                mt['From'] = user_name
+                mt['To'] = receipants
+                mt['Subject'] = subject
 
-        if user_name != "" and password != "" and receipants != "" and subject != "" and msg != "":
-            #creating MIME areas
-            mt = MIMEText(msg)
-            mt['From'] = user_name
-            mt['To'] = receipants
-            mt['Subject'] = subject
+                msg = mt.as_string()
 
-            msg = mt.as_string()
+                server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+                server.ehlo()
+                server.login(user_name, password)
+                server.sendmail(user_name, receipants, msg)
+                server.quit()
 
-            server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
-            server.ehlo()
-            server.login(user_name, password)
-            server.sendmail(user_name, receipants, msg)
-            server.quit()
+                #After sending, delete all data's from GUI
+                self.username_entry.delete(0, tk.END)
+                self.password_entry.delete(0, tk.END)
+                self.to_entry.delete(0, tk.END)
+                self.subject_entry.delete(0, tk.END)
+                self.content_entry.delete(0, tk.END)
 
-            #After sending, delete all data's from GUI
-            self.username_entry.delete(0, tk.END)
-            self.password_entry.delete(0, tk.END)
-            self.to_entry.delete(0, tk.END)
-            self.subject_entry.delete(0, tk.END)
-            self.content_entry.delete(0, tk.END)
+                messagebox.showwarning(title="Warning", message="Email sent successfully")
 
-        else:
-            messagebox.showwarning(title="Warning", message="Please enter all entries to send email!")
+            else:
+                messagebox.showwarning(title="Warning", message="Please enter all entries to send email!")
+
+        except Exception as e:
+            #Showing error using messagebox
+            messagebox.showwarning(title="Warning", message=e)
 
     def button_clear_all_handler(self):
         # Delete all datas from every entries using clear all button
