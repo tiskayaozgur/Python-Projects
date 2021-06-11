@@ -21,6 +21,6 @@ About Contact Books:
 
   About Typing_Speed_Test:
     I built an app where you can take a typing test.
-    You can take 5 different typing test.
+    You can take 10 different typing test.
     I used datetime module for taking time.
     
