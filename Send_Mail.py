@@ -12,25 +12,25 @@ class GUI:
         self.master = master
 
         # creating username label-entries
-        self.username_label = tk.Label(self.master, text='Username', bg='grey')
+        self.username_label = tk.Label(self.master, text='Username', bg='blue')
         self.username_label.grid(row=0, column=0, sticky='nsew')
         self.username_entry = tk.Entry(self.master)
         self.username_entry.grid(row=0, column=1, sticky='nsew')
 
         #creating password label-entries
-        self.password_label = tk.Label(self.master, text='Password', bg='grey')
+        self.password_label = tk.Label(self.master, text='Password', bg='green')
         self.password_label.grid(row=1, column=0, sticky='nsew')
         self.password_entry = tk.Entry(self.master, show='*') #for cursor invisible, i used show parameter.
         self.password_entry.grid(row=1, column=1, sticky='nsew')
 
         # creating to label-entries
-        self.to_label = tk.Label(self.master, text='To', bg='grey')
+        self.to_label = tk.Label(self.master, text='To', bg='pink')
         self.to_label.grid(row=2, column=0, sticky='nsew')
         self.to_entry = tk.Entry(self.master)
         self.to_entry.grid(row=2, column=1, sticky='nsew')
 
         # creating subject label-entries
-        self.subject_label = tk.Label(self.master, text='Subject', bg='grey')
+        self.subject_label = tk.Label(self.master, text='Subject', bg='red')
         self.subject_label.grid(row=3, column=0, sticky='nsew')
         self.subject_entry = tk.Entry(self.master)
         self.subject_entry.grid(row=3, column=1, sticky='nsew')
