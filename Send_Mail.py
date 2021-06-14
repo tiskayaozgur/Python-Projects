@@ -106,12 +106,15 @@ class GUI:
             messagebox.showwarning(title="Warning", message=e)
 
     def button_clear_all_handler(self):
-        # Delete all datas from every entries using clear all button
-        self.username_entry.delete(0, tk.END)
-        self.password_entry.delete(0, tk.END)
-        self.to_entry.delete(0, tk.END)
-        self.subject_entry.delete(0, tk.END)
-        self.content_entry.delete(0, tk.END)
+        if self.username_entry.get() == "" and self.password_entry.get() == "" and self.to_entry.get() == "" and self.subject_entry.get() == "" and self.content_entry.get() == "":
+            messagebox.showwarning(title="Warning", message="Every entries are already empty!")
+        else:
+            # Delete all datas from every entries using clear all button
+            self.username_entry.delete(0, tk.END)
+            self.password_entry.delete(0, tk.END)
+            self.to_entry.delete(0, tk.END)
+            self.subject_entry.delete(0, tk.END)
+            self.content_entry.delete(0, tk.END)
 
 
 root = tk.Tk()
