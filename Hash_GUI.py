@@ -30,11 +30,20 @@ class GUI:
         self.top.columnconfigure(0, weight=1)
         self.top.rowconfigure(0, weight=1)
         self.top.rowconfigure(1, weight=1)
+        self.top.rowconfigure(2, weight=1)
 
 
         # Creating entry area using scrolledtext for taking strings.
-        self.entry = tk.scrolledtext.ScrolledText(self.top, font='Calibri 14', heigh=5)
-        self.entry.grid(row=1, column=0, sticky='nswe')
+        self.entry_string = tk.scrolledtext.ScrolledText(self.top, font='Calibri 14', heigh=5)
+        self.entry_string.grid(row=1, column=0, sticky='nswe')
+
+        # Creating description
+        self.label = tk.Label(self.top, text='Hash Code', bg='grey')
+        self.label.grid(row=2, column=0, sticky='nsew')
+
+        # Creating entry area using scrolledtext for taking strings.
+        self.entry_hash = tk.scrolledtext.ScrolledText(self.top, font='Calibri 14', heigh=5)
+        self.entry_hash.grid(row=3, column=0, sticky='nswe')
 
         self.button = tk.Button(self.bottom, text="SHOW", command=self.button_show_handler)
         self.button.pack(side='left', expand=True)
@@ -42,7 +51,7 @@ class GUI:
 
 
     def button_show_handler(self):
-        pass
+        str = self.entry_string.get('1.0', tk.END)
 
 root = tk.Tk()
 gdb = GUI(root)
