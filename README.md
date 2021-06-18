@@ -24,3 +24,6 @@ About Contact Books:
     You can take 10 different typing test.
     I used datetime module for taking time.
     
+  About Hash GUI:
+    I built an application that generates the hash value of a string entered.
+    
