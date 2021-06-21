@@ -1,5 +1,6 @@
 import tkinter as tk
 import tkinter.scrolledtext
+import hmac
 class GUI:
 
     def __init__(self, master):
@@ -13,7 +14,7 @@ class GUI:
         self.top.grid(row=0, column=0, sticky='nswe')
 
         # Creating bottom Frame
-        self.bottom = tk.Frame(self.master, bg="blue")
+        self.bottom = tk.Frame(self.master, bg="grey")
         self.bottom.grid(row=1, column=0, sticky='nswe')
 
         #setting GUI for expantion
@@ -45,13 +46,28 @@ class GUI:
         self.entry_hash = tk.scrolledtext.ScrolledText(self.top, font='Calibri 14', heigh=5)
         self.entry_hash.grid(row=3, column=0, sticky='nswe')
 
-        self.button = tk.Button(self.bottom, text="SHOW", command=self.button_show_handler)
+        #Creating str to hash button
+        self.button = tk.Button(self.bottom, text="Str to hash", command=self.button_str_to_hash_handler)
         self.button.pack(side='left', expand=True)
 
+        # Creating hash to str button
+        self.button = tk.Button(self.bottom, text="Hash to str", command=self.button_hash_to_str_handler)
+        self.button.pack(side='left', expand=True)
 
+    def button_str_to_hash_handler(self):
+        text = self.entry_string.get('1.0', tk.END)
 
-    def button_show_handler(self):
-        str = self.entry_string.get('1.0', tk.END)
+        # Buraya kadarkı kısım, bız kendı tarafımızda var olan datayı byte'a donusturup, daha sonrasında da datayı bır keye bagladık ve has degerı elde ettık
+        hm = hmac.new(key=b'mavi ay', digestmod='sha1')
+        hm.update(text.encode('utf-8'))
+
+        bd = hm.digest()
+        td = hm.hexdigest()
+
+        self.entry_hash.insert(tk.END, td)
+
+    def button_hash_to_str_handler(self):
+        pass
 
 root = tk.Tk()
 gdb = GUI(root)
