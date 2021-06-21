@@ -26,4 +26,5 @@ About Contact Books:
     
   About Hash GUI:
     I built an application that generates the hash value of a string entered.
+    ı used hmac module for converting str to hash.
     
