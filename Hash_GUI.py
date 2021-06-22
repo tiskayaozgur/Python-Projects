@@ -1,7 +1,9 @@
+from tkinter import messagebox
 import tkinter as tk
 import tkinter.scrolledtext
-import hmac
-class GUI:
+import hashlib
+
+class Hash_GUI:
 
     def __init__(self, master):
 
@@ -55,20 +57,29 @@ class GUI:
         self.button.pack(side='left', expand=True)
 
     def button_str_to_hash_handler(self):
+
+
         text = self.entry_string.get('1.0', tk.END)
+        # print(len(text))
 
-        # Buraya kadarkı kısım, bız kendı tarafımızda var olan datayı byte'a donusturup, daha sonrasında da datayı bır keye bagladık ve has degerı elde ettık
-        hm = hmac.new(key=b'mavi ay', digestmod='sha1')
-        hm.update(text.encode('utf-8'))
+        if len(text) == 1:
+            messagebox.showwarning(title="Warning", message="You should write str for converting")
 
-        bd = hm.digest()
-        td = hm.hexdigest()
+        else:
+            sha1 = hashlib.sha1()
+            sha1.update(text.encode('utf-8'))
+            ht = sha1.hexdigest()
 
-        self.entry_hash.insert(tk.END, td)
+            self.entry_hash.insert(tk.END, ht)
+
+            self.entry_string.delete('1.0', tk.END)
 
     def button_hash_to_str_handler(self):
-        pass
+        #taking datas
+        b = self.entry_hash.get('1.0', tk.END)
+
+        print(b.decode("UTF-8"))
 
 root = tk.Tk()
-gdb = GUI(root)
+gdb = Hash_GUI(root)
 root.mainloop()
