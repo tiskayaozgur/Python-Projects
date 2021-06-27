@@ -52,12 +52,11 @@ class Hash_GUI:
         self.button = tk.Button(self.bottom, text="Str to hash", command=self.button_str_to_hash_handler)
         self.button.pack(side='left', expand=True)
 
-        # Creating hash to str button
-        self.button = tk.Button(self.bottom, text="Hash to str", command=self.button_hash_to_str_handler)
-        self.button.pack(side='left', expand=True)
+        # # Creating hash to str button
+        # self.button = tk.Button(self.bottom, text="Hash to str", command=self.button_hash_to_str_handler)
+        # self.button.pack(side='left', expand=True)
 
     def button_str_to_hash_handler(self):
-
 
         text = self.entry_string.get('1.0', tk.END)
         # print(len(text))
@@ -67,18 +66,10 @@ class Hash_GUI:
 
         else:
             sha1 = hashlib.sha1()
-            sha1.update(text.encode('utf-8'))
+            sha1.update(text.encode('UTF-8'))
             ht = sha1.hexdigest()
-
             self.entry_hash.insert(tk.END, ht)
-
             self.entry_string.delete('1.0', tk.END)
-
-    def button_hash_to_str_handler(self):
-        #taking datas
-        b = self.entry_hash.get('1.0', tk.END)
-
-        print(b.decode("UTF-8"))
 
 root = tk.Tk()
 gdb = Hash_GUI(root)
