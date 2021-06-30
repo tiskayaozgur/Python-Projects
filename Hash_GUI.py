@@ -3,6 +3,7 @@ import tkinter as tk
 import tkinter.scrolledtext
 import hashlib
 
+
 class Hash_GUI:
 
     def __init__(self, master):
@@ -52,9 +53,9 @@ class Hash_GUI:
         self.button = tk.Button(self.bottom, text="Str to hash", command=self.button_str_to_hash_handler)
         self.button.pack(side='left', expand=True)
 
-        # # Creating hash to str button
-        # self.button = tk.Button(self.bottom, text="Hash to str", command=self.button_hash_to_str_handler)
-        # self.button.pack(side='left', expand=True)
+        # Creating delete_hash_code button
+        self.button = tk.Button(self.bottom, text="Delete Hash Code", command=self.button_delete_hash_code_handler)
+        self.button.pack(side='left', expand=True)
 
     def button_str_to_hash_handler(self):
 
@@ -70,6 +71,11 @@ class Hash_GUI:
             ht = sha1.hexdigest()
             self.entry_hash.insert(tk.END, ht)
             self.entry_string.delete('1.0', tk.END)
+
+    def button_delete_hash_code_handler(self):
+
+        self.entry_hash.delete('1.0', tk.END)
+
 
 root = tk.Tk()
 gdb = Hash_GUI(root)
