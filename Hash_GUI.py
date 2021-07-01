@@ -2,7 +2,7 @@ from tkinter import messagebox
 import tkinter as tk
 import tkinter.scrolledtext
 import hashlib
-
+import pyperclip # This is for copy any hash code to the clipboard
 
 class Hash_GUI:
 
@@ -57,6 +57,10 @@ class Hash_GUI:
         self.button = tk.Button(self.bottom, text="Delete Hash Code", command=self.button_delete_hash_code_handler)
         self.button.pack(side='left', expand=True)
 
+        # Creating copy_hash_code button
+        self.button = tk.Button(self.bottom, text="Copy Hash Code", command=self.button_copy_hash_code_handler)
+        self.button.pack(side='left', expand=True)
+
     def button_str_to_hash_handler(self):
 
         text = self.entry_string.get('1.0', tk.END)
@@ -76,6 +80,14 @@ class Hash_GUI:
 
         self.entry_hash.delete('1.0', tk.END)
 
+    def button_copy_hash_code_handler(self):
+        #Taking hash code to the hash_code variable.
+        hash_code = self.entry_hash.get('1.0', tk.END)
+        self.entry_hash.delete('1.0', tk.END)
+
+        #Copy hash_code to the clipboard
+        pyperclip.copy(hash_code)
+        spam = pyperclip.paste()
 
 root = tk.Tk()
 gdb = Hash_GUI(root)
